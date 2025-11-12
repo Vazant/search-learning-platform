@@ -20,6 +20,10 @@ jobs:
         distribution: 'temurin'
         cache: maven
     
+    - name: Check code formatting with Spotless
+      run: mvn spotless:check
+      continue-on-error: false
+    
     - name: Build with Maven
       run: mvn clean package -DskipTests
     
