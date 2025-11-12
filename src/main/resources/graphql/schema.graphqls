@@ -1,0 +1,184 @@
+type Query {
+    # Get all documents (только для авторизованных пользователей)
+    allDocuments: [Document!]!
+    
+    # Get document by ID (с проверкой прав доступа)
+    document(id: ID!): Document
+    
+    # Поиск с фильтрами, сортировкой и пагинацией (permission-aware)
+    searchDocuments(
+        filter: SearchFilterInput
+    ): SearchResultPage!
+    
+    # Автокомплит для поиска (оптимизированный, с релевантностью)
+    autocomplete(
+        prefix: String!
+        type: AutocompleteType
+        limit: Int
+    ): [AutocompleteResult!]!
+    
+    # Search using different engines (legacy, опционально)
+    searchWithSolr(query: String!): [SearchResult!]!
+    searchWithOpenSearch(query: String!): [SearchResult!]!
+    searchWithTypeSense(query: String!): [SearchResult!]!
+    
+    # Compare all search engines (legacy, опционально)
+    compareSearchEngines(query: String!): SearchComparison!
+}
+
+type Mutation {
+    # Create a new document
+    createDocument(input: DocumentInput!): Document!
+    
+    # Update existing document
+    updateDocument(id: ID!, input: DocumentInput!): Document!
+    
+    # Delete document
+    deleteDocument(id: ID!): Boolean!
+    
+    # Index document to all search engines
+    indexDocument(id: ID!): IndexingResult!
+    
+    # Reindex all documents
+    reindexAll: ReindexResult!
+}
+
+type Document {
+    id: ID!
+    title: String!
+    content: String
+    author: String
+    category: String
+    status: String
+    createdAt: String!
+    updatedAt: String!
+}
+
+input DocumentInput {
+    title: String!
+    content: String
+    author: String
+    category: String
+    status: String
+}
+
+# Input для фильтров поиска
+input SearchFilterInput {
+    query: String
+    category: String
+    status: String
+    author: String
+    sortBy: SortField
+    sortOrder: SortOrder
+    pagination: PaginationInput
+    dateRange: DateRangeInput
+    includeFacets: Boolean
+}
+
+# Поля для сортировки
+enum SortField {
+    TITLE
+    CREATED_AT
+    UPDATED_AT
+    AUTHOR
+    CATEGORY
+    STATUS
+    RELEVANCE
+}
+
+# Направление сортировки
+enum SortOrder {
+    ASC
+    DESC
+}
+
+# Пагинация
+input PaginationInput {
+    page: Int
+    size: Int
+}
+
+# Диапазон дат
+input DateRangeInput {
+    createdAfter: String
+    createdBefore: String
+    updatedAfter: String
+    updatedBefore: String
+}
+
+# Тип автокомплита
+enum AutocompleteType {
+    TITLE
+    AUTHOR
+    CATEGORY
+    ALL
+}
+
+type SearchResult {
+    id: String!
+    title: String!
+    content: String
+    author: String
+    score: Float!
+    engine: String!
+}
+
+type SearchComparison {
+    query: String!
+    solrResults: [SearchResult!]!
+    openSearchResults: [SearchResult!]!
+    typeSenseResults: [SearchResult!]!
+    solrTime: Int!
+    openSearchTime: Int!
+    typeSenseTime: Int!
+}
+
+type IndexingResult {
+    documentId: ID!
+    solrSuccess: Boolean!
+    openSearchSuccess: Boolean!
+    typeSenseSuccess: Boolean!
+    message: String!
+}
+
+type ReindexResult {
+    totalDocuments: Int!
+    successCount: Int!
+    failureCount: Int!
+    message: String!
+}
+
+# Результат поиска с пагинацией
+type SearchResultPage {
+    content: [Document!]!
+    totalElements: Int!
+    totalPages: Int!
+    currentPage: Int!
+    pageSize: Int!
+    hasNext: Boolean!
+    hasPrevious: Boolean!
+    facets: SearchFacets
+}
+
+# Facets для фильтрации результатов
+type SearchFacets {
+    categories: [Facet!]!
+    statuses: [Facet!]!
+    authors: [Facet!]!
+}
+
+# Facet (группировка результатов)
+type Facet {
+    value: String!
+    count: Int!
+    label: String
+}
+
+# Результат автокомплита
+type AutocompleteResult {
+    text: String!
+    type: String!
+    documentId: ID
+}
+
+

@@ -1,0 +1,106 @@
+spring:
+  application:
+    name: search-learning-platform
+  
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
+    path: /graphql
+    
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+server:
+  port: 8080
+
+# Search engines configuration
+search:
+  solr:
+    enabled: true
+    url: http://localhost:8983/solr
+    core: search_demo
+    # Connection settings
+    connection-timeout: 10000  # 10 seconds
+    socket-timeout: 60000      # 60 seconds
+    connection-request-timeout: 5000  # 5 seconds
+    # Connection pooling
+    max-connections-per-host: 20
+    max-total-connections: 100
+    eviction-time: 30000  # 30 seconds
+    # Indexing settings
+    batch-size: 100  # Documents per batch
+    auto-commit: false  # Use Solr's autocommit instead of explicit commits
+    
+  opensearch:
+    enabled: true
+    url: http://localhost:9200
+    username: admin
+    password: admin
+    index: search_demo
+    # Connection settings
+    connection-timeout: 10000  # 10 seconds
+    socket-timeout: 60000      # 60 seconds
+    connection-request-timeout: 5000  # 5 seconds
+    # Connection pooling
+    max-connections-per-host: 20
+    max-total-connections: 100
+    eviction-time: 30000  # 30 seconds
+    # Indexing settings
+    batch-size: 100  # Documents per batch
+    
+  typesense:
+    enabled: true
+    url: http://localhost:8108
+    api-key: xyz
+    collection: search_demo
+    # Connection settings
+    connection-timeout: 10  # seconds
+    num-retries: 3
+    retry-interval-seconds: 1
+    # Indexing settings
+    batch-size: 100  # Documents per batch
+
+logging:
+  level:
+    com.example.search: DEBUG
+    org.springframework.graphql: DEBUG
+    # Логирование SQL для обнаружения N+1 проблем
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+  show-actuator: false
+
+# GraphQL Monitoring Configuration
+graphql:
+  monitoring:
+    enabled: true
+    slow-query-threshold-ms: 500      # Порог для медленных запросов
+    critical-query-threshold-ms: 1000 # Критический порог
+    log-all-queries: true              # Логировать все запросы
+    analyze-frequency: true           # Анализировать частоту запросов
+

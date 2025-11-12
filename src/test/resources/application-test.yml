@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: search-learning-platform-test
+    
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+search:
+  solr:
+    url: http://localhost:8983/solr
+    core: search_demo_test
+    
+  opensearch:
+    url: http://localhost:9200
+    username: admin
+    password: admin
+    index: search_demo_test
+    
+  typesense:
+    url: http://localhost:8108
+    api-key: xyz
+    collection: search_demo_test
+
+logging:
+  level:
+    com.example.search: INFO
+
+
