@@ -10,11 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IndexingResultDto {
-    private Long documentId;
-    private Boolean solrSuccess;
-    private Boolean openSearchSuccess;
-    private Boolean typeSenseSuccess;
-    private String message;
+  private Long documentId;
+  private Boolean solrSuccess;
+  private Boolean openSearchSuccess;
+  private Boolean typeSenseSuccess;
+  private String message;
 }
-
-

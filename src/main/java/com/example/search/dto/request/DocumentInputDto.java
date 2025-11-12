@@ -4,11 +4,9 @@ import lombok.Data;
 
 @Data
 public class DocumentInputDto {
-    private String title;
-    private String content;
-    private String author;
-    private String category;
-    private String status;
+  private String title;
+  private String content;
+  private String author;
+  private String category;
+  private String status;
 }
-
-

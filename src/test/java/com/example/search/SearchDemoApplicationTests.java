@@ -8,10 +8,8 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class SearchDemoApplicationTests {
 
-    @Test
-    void contextLoads() {
-        // Простой тест для проверки загрузки контекста Spring
-    }
+  @Test
+  void contextLoads() {
+    // Простой тест для проверки загрузки контекста Spring
+  }
 }
-
-

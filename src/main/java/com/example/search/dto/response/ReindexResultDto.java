@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReindexResultDto {
-    private Integer totalDocuments;
-    private Integer successCount;
-    private Integer failureCount;
-    private String message;
+  private Integer totalDocuments;
+  private Integer successCount;
+  private Integer failureCount;
+  private String message;
 }
-
-

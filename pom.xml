@@ -170,6 +170,76 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Google Java Format Plugin -->
+            <!-- Note: This plugin may have issues with Java 21, use format-java.sh script instead -->
+            <!--
+            <plugin>
+                <groupId>com.coveo</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <version>2.12.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+
+            <!-- Spotless Plugin - форматирование и автоматическая организация импортов (работает с Java 17+) -->
+            <!-- 
+                Этот плагин:
+                - Форматирует код согласно Google Java Format
+                - Автоматически удаляет неиспользуемые импорты
+                - Организует импорты в правильном порядке
+                - Работает через команду: mvn spotless:apply
+            -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.40.0</version>
+                <configuration>
+                    <java>
+                        <googleJavaFormat>
+                            <version>1.23.0</version>
+                            <style>GOOGLE</style>
+                        </googleJavaFormat>
+                        <removeUnusedImports />
+                        <importOrder>
+                            <order>java,javax,org,com</order>
+                            <wildcardsLast>false</wildcardsLast>
+                        </importOrder>
+                        <trimTrailingWhitespace />
+                        <endWithNewline />
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Formatter Plugin - альтернативный вариант (закомментирован, используйте Spotless) -->
+            <!--
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>2.23.0</version>
+                <configuration>
+                    <configFile>${project.basedir}/formatter-config.xml</configFile>
+                    <encoding>UTF-8</encoding>
+                    <lineEnding>LF</lineEnding>
+                    <compilerSource>17</compilerSource>
+                    <compilerCompliance>17</compilerCompliance>
+                    <compilerTargetPlatform>17</compilerTargetPlatform>
+                </configuration>
+            </plugin>
+            -->
         </plugins>
     </build>
     

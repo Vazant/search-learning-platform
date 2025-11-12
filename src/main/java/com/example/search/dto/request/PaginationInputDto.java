@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class PaginationInputDto {
-    private Integer page;
-    private Integer size;
+  private Integer page;
+  private Integer size;
 }
-
-
